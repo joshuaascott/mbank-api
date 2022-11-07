@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  db:
+    container_name: mbanksql
+    image: mysql:latest
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=mbank
+      - MYSQL_DATABASE=mbank
+      - MYSQL_USER=mbank
+      - MYSQL_PASSWORD=mbank
+    ports:
+      - 3306:3306
+  phpmyadmin:
+    depends_on:
+      - db
+    container_name: mbankpma
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8001:80
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+
+volumes:
+  db_data:
